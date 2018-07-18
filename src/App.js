@@ -15,7 +15,7 @@ class App extends PureComponent {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Realsies</h1>
         </header>
         {this.state.user ? (
           <button onClick={() => auth.signOut()}>Logout</button>

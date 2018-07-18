@@ -12,6 +12,13 @@ var config = {
 
 firebase.initializeApp(config);
 
-export const db = firebase.firestore();
+export const db = firebase
+  .firestore()
+  .enablePersistence()
+  .then(() => firebase.firestore())
+  .catch(err => {
+    console.log(err.code);
+    return firebase.firestore();
+  });
 export const auth = firebase.auth();
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
