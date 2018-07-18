@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { auth, googleAuthProvider } from './constants/firebase';
 
-class App extends Component {
+class App extends PureComponent {
+  state = { user: null };
+
+  componentDidMount() {
+    auth.onAuthStateChanged(user => this.setState({ user }));
+  }
+
   render() {
     return (
       <div className="App">
@@ -10,9 +17,13 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {this.state.user ? (
+          <button onClick={() => auth.signOut()}>Logout</button>
+        ) : (
+          <button onClick={() => auth.signInWithPopup(googleAuthProvider)}>
+            Signup/Login
+          </button>
+        )}
       </div>
     );
   }
