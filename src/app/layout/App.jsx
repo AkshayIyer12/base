@@ -1,16 +1,22 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+// import { auth, googleAuthProvider } from "../../constants/firebase";
+import { Container } from "semantic-ui-react";
+import EventDashboard from "../../features/events/EventDashboard/EventDashboard";
+import Navbar from "../../features/nav/Navbar/Navbar";
+import EventForm from "../../features/events/EventForm/EventForm";
+import EventDetailedPage from "../../features/events/EventDetailsPage/EventDetailsPage";
+import PeopleDashboard from "../../features/user/peopleDashboard/PropleDashboard";
+import UserDetails from "../../features/user/userDetails/userDetails";
+import SettingsDashboard from "../../features/user/settings/SettingsDashboard";
+import HomePage from "../../features/home/Home";
 
-import { auth, googleAuthProvider } from '../../constants/firebase';
-import { Button, Container } from 'semantic-ui-react';
-import EventDashboard from '../../features/events/EventDashboard/EventDashboard';
-import Navbar from '../../features/nav/Navbar/Navbar';
+class App extends Component {
+  // state = { user: null };
 
-class App extends PureComponent {
-  state = { user: null };
-
-  componentDidMount() {
-    auth.onAuthStateChanged(user => this.setState({ user }));
-  }
+  // componentDidMount() {
+  //   auth.onAuthStateChanged(user => this.setState({ user }));
+  // }
 
   render() {
     return (
@@ -20,15 +26,15 @@ class App extends PureComponent {
           <h1 className="App-title">Starter Kit</h1>
         </header>
         <Container className="main">
-          <EventDashboard />
-          {this.state.user ? (
-            <button onClick={() => auth.signOut()}>Logout</button>
-          ) : (
-            <Button
-              content="Signup/Login"
-              onClick={() => auth.signInWithPopup(googleAuthProvider)}
-            />
-          )}
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/events" component={EventDashboard} />
+            <Route path="/events/:id" component={EventDetailedPage} />
+            <Route path="/people" component={PeopleDashboard} />
+            <Route path="/profile/:id" component={UserDetails} />
+            <Route path="/settings" component={SettingsDashboard} />
+            <Route path="/createEvent" component={EventForm} />
+          </Switch>
         </Container>
       </div>
     );
@@ -36,3 +42,12 @@ class App extends PureComponent {
 }
 
 export default App;
+
+// {this.state.user ? (
+//   <button onClick={() => auth.signOut()}>Logout</button>
+// ) : (
+//   <Button
+//     content="Signup/Login"
+//     onClick={() => auth.signInWithPopup(googleAuthProvider)}
+//   />
+// )}
